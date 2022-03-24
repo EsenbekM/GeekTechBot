@@ -61,10 +61,17 @@ def get_info() -> str:
 
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
-    await bot.send_message(
-        message.from_user.id, 
-        f"/start - Начать\n/get_detail - Получить детальную информацию о стендапах\n/get_group - Общее количество стендапов в группе\n/clear - Очистить базу данных"
-        )
+    if message.chat.type == 'private':
+        if message.from_user.id in ADMINS:
+            await bot.send_message(
+                message.from_user.id, 
+                f"Команды для бота:\n/get_detail - Получить детальную информацию о стендапах\n/get_group - Общее количество стендапов во всех группах\n/clear - Очистить базу данных"\
+                f"/info - бот будет рассылать групам 'Как правильно писать стендапы' (Работает только в самих группах)\n"\
+                f"/admin (ID) - Добавляет нового админа в БД. Требуется написать команду, затем через пробел написать ID пользователя\n"\
+                f"/clear_all - ОПАСНО! Команда очищает всю базу данных включая всех админов\n"\
+                )
+        else:
+            await message.reply("Ты не админ, доступ запрещен!")
 
 @dp.message_handler(commands=['info'])
 async def start(message: types.Message):
