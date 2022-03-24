@@ -17,7 +17,7 @@ db = Database('database.db')
 ADMINS = []
 
 ADMINS.append(683673337)
-
+ADMINS.append(1433704284)
 
 def check_bad_words(mess: str):
     for i in bad_words:
@@ -117,7 +117,7 @@ async def create_admin(message: types.Message):
     '''
         hendler to add admin
     '''
-    if message.chat.type == 'private' and message.from_user.id == 683673337:
+    if message.chat.type == 'private' and message.from_user.id in ADMINS:
         try:
             admin_id = int(message.text[7:])
             db.add_admin(
@@ -173,9 +173,7 @@ async def find_stendup(message: types.Message):
     '''
         hendler to find stendups in the chats
     '''
-    if check_bad_words(message.text) and message.from_user.id == 683673337:
-            await message.reply("Согласен)")
-    elif check_bad_words(message.text):
+    if check_bad_words(message.text):
             await message.reply("Ненормативная лексика запрещена!")
     elif (message.chat.type != 'private') and str_analyth(message.text.lower()):
         if db.user_exist(message.from_user.id):
