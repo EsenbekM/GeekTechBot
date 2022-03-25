@@ -24,12 +24,16 @@ def check_bad_words(mess: str):
         if i in mess.lower():
             return True
 
+def get_name(st: str):
+    return st[st.index('Исполнитель'):]
+
 def str_analyth(mess):
     if (
         '#standup' in mess and
         'что сделал' in mess and 
         'проблем' in mess and 
         'что буду делать' in mess and 
+        'исполнитель' in mess and 
         len(mess) > 50
         ):
 
@@ -79,7 +83,7 @@ async def start(message: types.Message):
     if message.chat.type != 'private':
         await bot.send_message(
             message.chat.id,
-            "ПИШИТЕ СТЕНДАПЫ СТРОГО ПО ШАБЛОНУ!\n\n#StandUp\nЧто сделал(a): (Напишите что вы сделали в ходе выполнения дз)\nПроблемы: (Опишите проблемы с которыми столкнулись в ходе выполнения дз)\nЧто буду делать: (Напишите что вы собираетесь делать, чтобы улучшить результат)\n"
+            "ПИШИТЕ СТЕНДАПЫ СТРОГО ПО ШАБЛОНУ!\n\n#StandUp\nЧто сделал(a): (Напишите что вы сделали в ходе выполнения дз)\nПроблемы: (Опишите проблемы с которыми столкнулись в ходе выполнения дз)\nЧто буду делать: (Напишите что вы собираетесь делать, чтобы улучшить результат)\nИсполнитель: (ФИО)"
             )
     
 
@@ -183,7 +187,7 @@ async def find_stendup(message: types.Message):
                 user_id=message.from_user.id,
                 group=message.chat.title,
                 nickname=message.from_user.username,
-                name=message.from_user.full_name,
+                name=get_name(message.text),
                 count=1
                 )
             db.set_active(message.from_user.id, 1)
@@ -193,5 +197,5 @@ async def find_stendup(message: types.Message):
         await message.reply("Ваш StandUp не был засчитан!")
         await bot.send_message(
             message.chat.id,
-            "ПИШИТЕ СТЕНДАПЫ СТРОГО ПО ШАБЛОНУ!\n\n#StandUp\nЧто сделал(a): (Напишите что вы сделали в ходе выполнения дз)\nПроблемы: (Опишите проблемы с которыми столкнулись в ходе выполнения дз)\nЧто буду делать: (Напишите что вы собираетесь делать, чтобы улучшить результат)\n"
+            "ПИШИТЕ СТЕНДАПЫ СТРОГО ПО ШАБЛОНУ!\n\n#StandUp\nЧто сделал(a): (Напишите что вы сделали в ходе выполнения дз)\nПроблемы: (Опишите проблемы с которыми столкнулись в ходе выполнения дз)\nЧто буду делать: (Напишите что вы собираетесь делать, чтобы улучшить результат)\nnИсполнитель: (ФИО)"
             )
