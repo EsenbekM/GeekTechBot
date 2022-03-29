@@ -29,11 +29,12 @@ class Database:
                 (user_id, group, nickname, name, count, is_admin)
                 )
 
-    def add_count(self, user_id):
+    def add_count(self, user_id, name):
         with self.connection:
             new = self.cursor.execute("SELECT users.count FROM 'users' WHERE users.user_id = ?", (user_id, )).fetchmany(1)
             newv2 = new[0][0] + 1
-            return self.cursor.execute("UPDATE 'users' SET 'count' = ? WHERE users.user_id = ?", (newv2, user_id))
+            return self.cursor.execute("UPDATE 'users' SET 'count' = ? WHERE users.user_id = ?", (newv2, user_id)),\
+                self.cursor.execute("UPDATE 'users' SET 'name' = ? WHERE users.user_id = ?", (name, user_id))
 
     def set_active(self, user_id, active):
         with self.connection:

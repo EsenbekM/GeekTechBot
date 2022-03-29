@@ -59,7 +59,8 @@ def get_info() -> str:
         for k, v in ans.items():
             message_text += f"\nGroup: {k}\n"
             for i in v:
-                message_text += f"\nNickname: @{i[0]}\nName: {i[1]}\nAmount of StandUp's: {i[2]}\n"
+                message_text += f"\nNickname: @{i[0]}\n{i[1]}\nAmount of StandUp's: {i[2]}\n"
+            message_text += ("-"*25)
         return  message_text + f'\nAll amount: {all_amount}'
     return "StandUp list is empty!"
 
@@ -181,7 +182,7 @@ async def find_stendup(message: types.Message):
             await message.reply("Ненормативная лексика запрещена!")
     elif (message.chat.type != 'private') and str_analyth(message.text.lower()):
         if db.user_exist(message.from_user.id):
-            db.add_count(message.from_user.id)
+            db.add_count(message.from_user.id, get_name(message.text))
         if not db.user_exist(message.from_user.id):
             db.add_user(
                 user_id=message.from_user.id,
