@@ -21,7 +21,7 @@ ADMINS.append(1433704284)
 
 def check_bad_words(mess: str):
     for i in bad_words:
-        if i in mess.lower():
+        if i in mess.lower().split():
             return True
 
 def get_name(st: str):
