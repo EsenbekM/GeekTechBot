@@ -150,14 +150,10 @@ async def get_info_to_admin(message: types.Message):
             message_text = get_info()
             if len(message_text) == 0:
                 await bot.send_message(message.from_user.id, "StendUp list is empty!")
-            elif len(message_text) > 4000:
-                first = message_text[0:int(len(message_text))//2]
-                last = message_text[int(len(message_text))//2:]
-                await bot.send_message(message.from_user.id, first)
-                await bot.send_message(message.from_user.id, last)
             else:
                 await bot.send_message(message.from_user.id, message_text)
-        else:
+        
+	else:
             await message.reply("Permission denied!")    
 
 @dp.message_handler(commands=['get_group'])
