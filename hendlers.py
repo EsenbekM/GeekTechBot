@@ -150,6 +150,11 @@ async def get_info_to_admin(message: types.Message):
             message_text = get_info()
             if len(message_text) == 0:
                 await bot.send_message(message.from_user.id, "StendUp list is empty!")
+            elif len(message_text) > 4096:
+                first = message_text[0:len(message_text)/2]
+                last = message_text[len(message_text)/2:]
+                await bot.send_message(message.from_user.id, first)
+                await bot.send_message(message.from_user.id, last)
             else:
                 await bot.send_message(message.from_user.id, message_text)
         else:
